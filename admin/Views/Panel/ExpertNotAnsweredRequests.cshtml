@@ -1,0 +1,105 @@
+﻿@using DepremsizHayat.DTO.Admin;
+@using DepremsizHayat.DTO;
+@model PaginationModel<ExpertNotAnsweredRequest>
+@{
+    ViewBag.Title = "Yanıt Bekleyen Talepler";
+    Layout = "~/Views/Panel/Shared/Layout_.cshtml";
+}
+<script src="~/Content/js/pagination.js"></script>
+<section class="content mt-2">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Talep Listesi</h3>
+                </div>
+                <div class="card-body">
+                    <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                        <div class="row"><div class="col-sm-12 col-md-6"></div><div class="col-sm-12 col-md-6"></div></div><div class="row">
+                            <div class="col-sm-12">
+                                <div style="overflow-x:scroll;overflow-y:hidden">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Ad Soyad</th>
+                                                <th>Adres</th>
+                                                <th>Bina</th>
+                                                <th>Durum</th>
+                                                <th>Detay</th>
+                                            </tr>
+                                            <tr colspan="5" style="border-color:transparent;height:20px"></tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.DataList.Count > 0)
+                                            {
+                                                foreach (ExpertNotAnsweredRequest analyse in Model.DataList)
+                                                {
+                                                    <tr>
+                                                        <td>@analyse.REQUESTER_USER.FIRST_NAME @analyse.REQUESTER_USER.LAST_NAME</td>
+                                                        <td>@analyse.ANALYSE_REQUEST.COUNTRY @analyse.ANALYSE_REQUEST.DISTRICT</td>
+                                                        <td>@analyse.ANALYSE_REQUEST.NUMBER_OF_FLOORS @analyse.ANALYSE_REQUEST.YEAR_OF_CONSTRUCTION</td>
+                                                        <td>
+                                                            @switch (analyse.STATUS.NAME)
+                                                            {
+                                                                case "Accepted":
+                                                                    <span>Kabul Edildi</span>
+                                                                    break;
+                                                                case "Denied":
+                                                                    <span>Ret Edildi</span>
+                                                                    break;
+
+                                                            }
+                                                        </td>
+                                                        <td><button class="btn btn-block btn-info btn-sm" onclick="showDetail('@analyse.ANALYSE_REQUEST_ID')">Detay</button></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="5" style="background:rgb(245,245,245); box-shadow:inset 0px 0px 0px 1px rgb(230,230,230)">
+                                                            <h5 class="mb-2 pl-2">Talebi Sonuçlandır</h5>
+                                                            <form action="/Panel/ReplyRequest">
+                                                                <div>
+                                                                    <textarea class="form-control" placeholder="Cevap" name="answer"></textarea>
+                                                                </div>
+                                                                <div class="mt-2" style="text-align:right!important">
+                                                                    <input type="number" class="form-control mb-2" name="score" placeholder="Risk Skoru" />
+                                                                    <input type="hidden" value="@analyse.USER_ANALYSE_REQUEST_ID" name="requestId" />
+                                                                    <input type="submit" class="btn btn-secondary btn-sm" value="Gönder" />
+                                                                </div>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                    <tr colspan="5" style="border-color:transparent;height:20px"></tr>
+                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                <tr>
+                                                    <td colspan="5" style="text-align:center">Bir kayıt bulunamadı.</td>
+                                                </tr>
+                                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center" id="pagination" data-content-count="@Model.DataCount" data-content-perpage="@Model.DataPerPage"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (ViewBag.ReplyResponse != null && ViewBag.ReplyResponse.Message.Count>0)
+                                                        {
+                                                            for (int i = 0; i < ViewBag.ReplyResponse.Message.Count; i++)
+                                                            {
+            <b>@ViewBag.ReplyResponse.Message[i]</b>
+                                                            }
+                                                        }
+</section>
+@Html.Partial("Shared/_StatusPartial")
+<script>
+    pagination("pagination", "/Panel/ExpertNotAnsweredRequests")
+</script>
+
+
+

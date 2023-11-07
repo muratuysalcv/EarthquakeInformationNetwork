@@ -1,0 +1,93 @@
+﻿#sendnewrequest .container {
+    display: grid;
+    grid-template-columns: 600px 300px;
+    grid-template-rows: 1fr;
+    gap: 15px 15px;
+    grid-template-areas:
+        "form-area right";
+    width: 100%;
+    max-width: 940px;
+}
+
+@media screen and (max-width:940px) {
+    #sendnewrequest .container {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+        gap: 15px 15px;
+        grid-template-areas:
+            "form-area" "right";
+        max-width: 600px;
+    }
+}
+
+#sendnewrequest .form-area {
+    grid-area: form-area;
+}
+
+#sendnewrequest .right {
+    grid-area: right;
+}
+
+
+    #sendnewrequest .right h3 {
+        color: var(--color-secondary)
+    }
+
+.select.one {
+    height: 40px;
+    border: 1px solid var(--color-border-gray);
+    border-radius: 5px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+}
+
+.imagesBox{
+    border-radius:10px;
+    background-color:rgb(230,230,230);
+    height:150px;
+    width:100%;
+}
+    .imagesBox > div {
+        height: 100%;
+        width: 100%;
+        border-radius: 5px;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        display: flex;
+    }
+
+        .imagesBox > div::-webkit-scrollbar {
+            display: none;
+        }
+
+.imagesBox > div > div{
+    position:relative;
+    height:100%;
+}
+
+    .imagesBox > div > div > i{
+        background-color:var(--color-red);
+        color:white;
+        border-radius:5px;
+        position:absolute;
+        top:5px;
+        left:5px;
+        padding:5px;
+        border-radius:5px;
+        font-size:11px;
+        cursor:pointer;
+    }
+
+.imagesBox > div img{
+    max-height:100%;
+    width:auto;
+    border:1px solid rgb(150,150,150);
+    border-radius:5px;
+}
+    .imagesBox > div img:not(:last-child) {
+        margin-right:5px;
+    }
